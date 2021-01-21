@@ -83,7 +83,6 @@ const createUsernames = accs => {
       .split(' ')
       .map(name => name[0])
       .join('');
-    // console.log(username);
   });
 };
 
