@@ -78,9 +78,22 @@ displayMovements(account1.movements);
 
 const calcDisplayBalance = movements => {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance}$`;
+  labelBalance.textContent = `${balance}€`;
 };
 calcDisplayBalance(account1.movements);
+const calcTransSummary = movements => {
+  const depositsTotal = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov);
+  labelSumIn.textContent = `${depositsTotal}€`;
+
+  const withdrawalsTotal = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov);
+  labelSumOut.textContent = `${withdrawalsTotal}€`;
+};
+calcTransSummary(account1.movements);
+
 const createUsernames = accs => {
   accs.forEach(function (acc) {
     acc.username = acc.owner
@@ -116,6 +129,7 @@ const max = movements.reduce((acc, mov) => {
 
 console.log(max);
 
+//USD EURO Conversion
 const euroToUSD = 1.1;
 const totalDepositsUSD = movements
   .filter(mov => mov > 0)
