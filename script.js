@@ -128,6 +128,7 @@ btnLogin.addEventListener('click', e => {
 
     //Clear inout fields
     inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
 
     //Display movements
     calcTransSummary(currentAccount.movements);
