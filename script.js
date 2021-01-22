@@ -84,13 +84,20 @@ calcDisplayBalance(account1.movements);
 const calcTransSummary = movements => {
   const depositsTotal = movements
     .filter(mov => mov > 0)
-    .reduce((acc, mov) => acc + mov);
+    .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${depositsTotal}€`;
 
   const withdrawalsTotal = movements
     .filter(mov => mov < 0)
-    .reduce((acc, mov) => acc + mov);
+    .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${withdrawalsTotal}€`;
+
+  const interestPaid = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter(mov => mov > 0)
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interestPaid}€`;
 };
 calcTransSummary(account1.movements);
 
