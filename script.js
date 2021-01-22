@@ -74,13 +74,11 @@ const displayMovements = movements => {
   });
 };
 
-displayMovements(account1.movements);
-
 const calcDisplayBalance = movements => {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
   labelBalance.textContent = `${balance}€`;
 };
-calcDisplayBalance(account1.movements);
+
 const calcTransSummary = movements => {
   const depositsTotal = movements
     .filter(mov => mov > 0)
@@ -99,7 +97,6 @@ const calcTransSummary = movements => {
     .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interestPaid}€`;
 };
-calcTransSummary(account1.movements);
 
 const createUsernames = accs => {
   accs.forEach(function (acc) {
@@ -112,6 +109,35 @@ const createUsernames = accs => {
 };
 
 createUsernames(accounts);
+
+let currentAccount;
+
+//Event handler
+btnLogin.addEventListener('click', e => {
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    account => account.username === inputLoginUsername.value
+  );
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    labelWelcome.textContent = `Welcome back ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 100;
+
+    //Display movements
+    calcTransSummary(currentAccount.movements);
+
+    //Display balance
+    calcDisplayBalance(currentAccount.movements);
+
+    //Display summary
+    displayMovements(currentAccount.movements);
+  } else {
+    alert(`Please check Login or Passowrd information`);
+  }
+});
 
 // const balance = movements.reduce((acc, mov) => acc + mov, 0);
 
