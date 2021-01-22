@@ -79,18 +79,18 @@ const calcDisplayBalance = movements => {
   labelBalance.textContent = `${balance}€`;
 };
 
-const calcTransSummary = movements => {
-  const depositsTotal = movements
+const calcTransSummary = account => {
+  const depositsTotal = account.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${depositsTotal}€`;
 
-  const withdrawalsTotal = movements
+  const withdrawalsTotal = account.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${withdrawalsTotal}€`;
 
-  const interestPaid = movements
+  const interestPaid = account.movements
     .filter(mov => mov > 0)
     .map(deposit => (deposit * 1.2) / 100)
     .filter(mov => mov > 0)
@@ -131,7 +131,7 @@ btnLogin.addEventListener('click', e => {
     inputLoginPin.blur();
 
     //Display movements
-    calcTransSummary(currentAccount.movements);
+    calcTransSummary(currentAccount);
 
     //Display balance
     calcDisplayBalance(currentAccount.movements);
