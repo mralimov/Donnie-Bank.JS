@@ -175,6 +175,27 @@ btnTransfer.addEventListener('click', e => {
   }
 });
 
+//Request loan function
+btnLoan.addEventListener('click', e => {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    //Add money in account
+    currentAccount.movements.push(amount);
+
+    //Update UI
+    updateUI(currentAccount);
+  } else {
+    alert(
+      `Sorry! Your income deposits not 10% of requesting amount. Please request lower amount!`
+    );
+  }
+
+  //Clear input value
+  inputLoanAmount.value = '';
+});
+
 //DELETE the ACCOUNT function
 btnClose.addEventListener('click', e => {
   e.preventDefault();
