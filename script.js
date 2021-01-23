@@ -131,6 +131,8 @@ btnLogin.addEventListener('click', e => {
     account => account.username === inputLoginUsername.value
   );
 
+  console.log(currentAccount);
+
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     labelWelcome.textContent = `Welcome back ${
       currentAccount.owner.split(' ')[0]
@@ -144,6 +146,7 @@ btnLogin.addEventListener('click', e => {
     //Update UI
     updateUI(currentAccount);
   } else {
+    inputLoginUsername.value = inputLoginPin.value = '';
     alert(`Please check Login or Passowrd information`);
   }
 });
@@ -172,6 +175,26 @@ btnTransfer.addEventListener('click', e => {
   }
 });
 
+//DELETE the ACCOUNT function
+btnClose.addEventListener('click', e => {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      el => el.username === currentAccount.username
+    );
+    //Deletes acoount
+    accounts.splice(index, 1);
+
+    //Hides UI
+    containerApp.style.opacity = 0;
+  }
+  //Clears input values
+  inputCloseUsername.value = inputClosePin.value = '';
+});
 // const balance = movements.reduce((acc, mov) => acc + mov, 0);
 
 /////////////////////////////////////////////////
