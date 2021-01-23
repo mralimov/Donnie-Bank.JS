@@ -158,7 +158,9 @@ btnTransfer.addEventListener('click', e => {
   //
   if (
     amount > 0 &&
-    //
+    //this will give an undefined if account does not exist below.
+    recieverAccount &&
+    //optional chaining "?" symbol checking if that property exist or not
     currentAccount.balance >= amount &&
     recieverAccount?.username !== currentAccount.username
   ) {
