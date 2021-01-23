@@ -148,13 +148,14 @@ btnLogin.addEventListener('click', e => {
   }
 });
 
+//Transfer money funtion
 btnTransfer.addEventListener('click', e => {
   e.preventDefault();
   const amount = Number(inputTransferAmount.value);
   const recieverAccount = accounts.find(
     account => account.username === inputTransferTo.value
   );
-  console.log(amount, recieverAccount);
+  inputTransferAmount.value = inputTransferTo.value = '';
   //
   if (
     amount > 0 &&
