@@ -137,7 +137,7 @@ btnLogin.addEventListener('click', e => {
 
   console.log(currentAccount);
 
-  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+  if (currentAccount?.pin === +inputLoginPin.value) {
     labelWelcome.textContent = `Welcome back ${
       currentAccount.owner.split(' ')[0]
     }`;
@@ -158,7 +158,7 @@ btnLogin.addEventListener('click', e => {
 //Transfer money funtion
 btnTransfer.addEventListener('click', e => {
   e.preventDefault();
-  const amount = Number(inputTransferAmount.value);
+  const amount = +inputTransferAmount.value;
   const recieverAccount = accounts.find(
     account => account.username === inputTransferTo.value
   );
@@ -182,7 +182,7 @@ btnTransfer.addEventListener('click', e => {
 //Request loan function
 btnLoan.addEventListener('click', e => {
   e.preventDefault();
-  const amount = Number(inputLoanAmount.value);
+  const amount = +inputLoanAmount.value;
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     //Add money in account
@@ -206,7 +206,7 @@ btnClose.addEventListener('click', e => {
 
   if (
     inputCloseUsername.value === currentAccount.username &&
-    Number(inputClosePin.value) === currentAccount.pin
+    +inputClosePin.value === currentAccount.pin
   ) {
     const index = accounts.findIndex(
       el => el.username === currentAccount.username
@@ -238,7 +238,7 @@ btnSort.addEventListener('click', e => {
 // labelBalance.addEventListener('click', () => {
 //   const movementUI = Array.from(
 //     document.querySelectorAll('.movements__value'),
-//     el => Number(el.textContent.replace('€', ''))
+//     el => +(el.textContent.replace('€', ''))
 //   );
 //   console.log(movementUI);
 // });
