@@ -61,6 +61,7 @@ const displayMovements = (movements, sort = false) => {
   //TextContent = 0
   containerMovements.innerHTML = '';
 
+  //movements.slice() because we ca not touch original array, That's why we create copy of that aray to sort with slice() method.
   const movSort = sort ? movements.slice().sort((a, b) => a - b) : movements;
 
   movements.forEach((mov, i) => {
