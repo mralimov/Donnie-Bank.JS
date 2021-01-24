@@ -64,7 +64,7 @@ const displayMovements = (movements, sort = false) => {
   //movements.slice() because we ca not touch original array, That's why we create copy of that aray to sort with slice() method.
   const movSort = sort ? movements.slice().sort((a, b) => a - b) : movements;
 
-  movements.forEach((mov, i) => {
+  movSort.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
     <div class="movements__row">
@@ -221,6 +221,19 @@ btnClose.addEventListener('click', e => {
   inputCloseUsername.value = inputClosePin.value = '';
 });
 // const balance = movements.reduce((acc, mov) => acc + mov, 0);
+
+// State variable let sorted = false because at the beginning arrays not sorted
+let sorted = false;
+
+//Calling Movements SORT method
+btnSort.addEventListener('click', e => {
+  e.preventDefault();
+
+  displayMovements(currentAccount.movements, !sorted);
+
+  //because if array sorted it will go false or not sorted it will go true
+  sorted = !sorted;
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
