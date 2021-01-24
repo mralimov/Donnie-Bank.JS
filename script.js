@@ -57,8 +57,12 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = movements => {
+const displayMovements = (movements, sort = false) => {
+  //TextContent = 0
   containerMovements.innerHTML = '';
+
+  //movements.slice() because we ca not touch original array, That's why we create copy of that aray to sort with slice() method.
+  const movSort = sort ? movements.slice().sort((a, b) => a - b) : movements;
 
   movements.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
