@@ -71,7 +71,7 @@ const displayMovements = (movements, sort = false) => {
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-           <div class="movements__value">${mov}€</div>
+           <div class="movements__value">${mov.toFixed(2)}€</div>
         </div>
     `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -80,26 +80,26 @@ const displayMovements = (movements, sort = false) => {
 
 const calcDisplayBalance = acc => {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${acc.balance}€`;
+  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
 };
 
 const calcTransSummary = account => {
   const depositsTotal = account.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${depositsTotal}€`;
+  labelSumIn.textContent = `${depositsTotal.toFixed(2)}€`;
 
   const withdrawalsTotal = account.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${withdrawalsTotal}€`;
+  labelSumOut.textContent = `${withdrawalsTotal.toFixed(2)}€`;
 
   const interestPaid = account.movements
     .filter(mov => mov > 0)
     .map(deposit => (deposit * 1.2) / 100)
     .filter(mov => mov > 0)
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${interestPaid}€`;
+  labelSumInterest.textContent = `${interestPaid.toFixed(2)}€`;
 };
 
 const createUsernames = accs => {
@@ -182,7 +182,7 @@ btnTransfer.addEventListener('click', e => {
 //Request loan function
 btnLoan.addEventListener('click', e => {
   e.preventDefault();
-  const amount = +inputLoanAmount.value;
+  const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     //Add money in account
@@ -245,6 +245,12 @@ btnSort.addEventListener('click', e => {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+
+//This method to get numbers between Min Max/
+const twoNumDifferent = (min, max) =>
+  Math.trunc(Math.random() * (max - min) + 1) + min;
+
+console.log(twoNumDifferent(2, 9));
 
 const currencies = new Map([
   ['USD', 'United States dollar'],
