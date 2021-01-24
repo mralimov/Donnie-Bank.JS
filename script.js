@@ -220,7 +220,7 @@ btnClose.addEventListener('click', e => {
   //Clears input values
   inputCloseUsername.value = inputClosePin.value = '';
 });
-// const balance = movements.reduce((acc, mov) => acc + mov, 0);
+// const totalBalance = movements.reduce((acc, mov) => acc + mov, 0);
 
 // State variable let sorted = false because at the beginning arrays not sorted
 let sorted = false;
@@ -235,6 +235,13 @@ btnSort.addEventListener('click', e => {
   sorted = !sorted;
 });
 
+// labelBalance.addEventListener('click', () => {
+//   const movementUI = Array.from(
+//     document.querySelectorAll('.movements__value'),
+//     el => Number(el.textContent.replace('€', ''))
+//   );
+//   console.log(movementUI);
+// });
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
