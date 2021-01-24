@@ -64,14 +64,14 @@ const displayMovements = (movements, sort = false) => {
   //movements.slice() because we ca not touch original array, That's why we create copy of that aray to sort with slice() method.
   const movSort = sort ? movements.slice().sort((a, b) => a - b) : movements;
 
-  movements.forEach((mov, i) => {
+  movSort.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
     <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-           <div class="movements__value">${mov}€</div>
+           <div class="movements__value">${mov.toFixed(2)}€</div>
         </div>
     `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -80,26 +80,26 @@ const displayMovements = (movements, sort = false) => {
 
 const calcDisplayBalance = acc => {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${acc.balance}€`;
+  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
 };
 
 const calcTransSummary = account => {
   const depositsTotal = account.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${depositsTotal}€`;
+  labelSumIn.textContent = `${depositsTotal.toFixed(2)}€`;
 
   const withdrawalsTotal = account.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${withdrawalsTotal}€`;
+  labelSumOut.textContent = `${withdrawalsTotal.toFixed(2)}€`;
 
   const interestPaid = account.movements
     .filter(mov => mov > 0)
     .map(deposit => (deposit * 1.2) / 100)
     .filter(mov => mov > 0)
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${interestPaid}€`;
+  labelSumInterest.textContent = `${interestPaid.toFixed(2)}€`;
 };
 
 const createUsernames = accs => {
@@ -137,7 +137,7 @@ btnLogin.addEventListener('click', e => {
 
   console.log(currentAccount);
 
-  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+  if (currentAccount?.pin === +inputLoginPin.value) {
     labelWelcome.textContent = `Welcome back ${
       currentAccount.owner.split(' ')[0]
     }`;
@@ -158,7 +158,7 @@ btnLogin.addEventListener('click', e => {
 //Transfer money funtion
 btnTransfer.addEventListener('click', e => {
   e.preventDefault();
-  const amount = Number(inputTransferAmount.value);
+  const amount = +inputTransferAmount.value;
   const recieverAccount = accounts.find(
     account => account.username === inputTransferTo.value
   );
@@ -182,7 +182,7 @@ btnTransfer.addEventListener('click', e => {
 //Request loan function
 btnLoan.addEventListener('click', e => {
   e.preventDefault();
-  const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     //Add money in account
@@ -206,7 +206,7 @@ btnClose.addEventListener('click', e => {
 
   if (
     inputCloseUsername.value === currentAccount.username &&
-    Number(inputClosePin.value) === currentAccount.pin
+    +inputClosePin.value === currentAccount.pin
   ) {
     const index = accounts.findIndex(
       el => el.username === currentAccount.username
@@ -220,11 +220,37 @@ btnClose.addEventListener('click', e => {
   //Clears input values
   inputCloseUsername.value = inputClosePin.value = '';
 });
-// const balance = movements.reduce((acc, mov) => acc + mov, 0);
+// const totalBalance = movements.reduce((acc, mov) => acc + mov, 0);
 
+// State variable let sorted = false because at the beginning arrays not sorted
+let sorted = false;
+
+//Calling Movements SORT method
+btnSort.addEventListener('click', e => {
+  e.preventDefault();
+
+  displayMovements(currentAccount.movements, !sorted);
+
+  //because if array sorted it will go false or not sorted it will go true
+  sorted = !sorted;
+});
+
+// labelBalance.addEventListener('click', () => {
+//   const movementUI = Array.from(
+//     document.querySelectorAll('.movements__value'),
+//     el => +(el.textContent.replace('€', ''))
+//   );
+//   console.log(movementUI);
+// });
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+
+//This method to get numbers between Min Max/
+const twoNumDifferent = (min, max) =>
+  Math.trunc(Math.random() * (max - min) + 1) + min;
+
+console.log(twoNumDifferent(2, 9));
 
 const currencies = new Map([
   ['USD', 'United States dollar'],
