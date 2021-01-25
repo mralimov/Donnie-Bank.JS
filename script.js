@@ -253,8 +253,8 @@ btnTransfer.addEventListener('click', e => {
     recieverAccount.movements.push(amount);
 
     //Add transfer date
-    currentAccount.movementsDates.push(new Date());
-    recieverAccount.movementsDates.push(new Date());
+    currentAccount.movementsDates.push(new Date().toISOString());
+    recieverAccount.movementsDates.push(new Date().toISOString());
 
     updateUI(currentAccount);
   }
@@ -270,7 +270,7 @@ btnLoan.addEventListener('click', e => {
     currentAccount.movements.push(amount);
 
     //Add transfer date
-    currentAccount.movementsDates.push(new Date());
+    currentAccount.movementsDates.push(new Date().toISOString());
 
     //Update UI
     updateUI(currentAccount);
