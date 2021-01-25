@@ -243,12 +243,35 @@ const updateUI = function (account) {
   displayMovements(account);
 };
 
-let currentAccount;
+const startLogOutTimer = () => {
+  const tick = () => {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
 
-//Fake Always logged in
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
+    //Each call back call print the remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    //When 0 seconds, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = `Log in to get started`;
+      containerApp.style.opacity = 0;
+    }
+
+    //Decrease timer 1s
+    time--;
+  };
+
+  // Set time to 5 minutes
+  let time = 300;
+
+  // Call timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
+
+let currentAccount, timer;
 
 //Event handler
 btnLogin.addEventListener('click', e => {
@@ -297,6 +320,9 @@ btnLogin.addEventListener('click', e => {
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
 
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
+
     //Update UI
     updateUI(currentAccount);
   } else {
@@ -331,6 +357,10 @@ btnTransfer.addEventListener('click', e => {
     recieverAccount.movementsDates.push(new Date().toISOString());
 
     updateUI(currentAccount);
+
+    //Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
@@ -340,14 +370,19 @@ btnLoan.addEventListener('click', e => {
   const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-    //Add money in account
-    currentAccount.movements.push(amount);
+    setTimeout(() => {
+      //Add money in account
+      currentAccount.movements.push(amount);
 
-    //Add transfer date
-    currentAccount.movementsDates.push(new Date().toISOString());
+      //Add transfer date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    //Update UI
-    updateUI(currentAccount);
+      //Update UI
+      updateUI(currentAccount);
+      //Reset timer
+      clearInterval(timer);
+      timer = startLogOutTimer();
+    }, 2500);
   } else {
     alert(
       `Sorry! Your income deposits not 10% of requesting amount. Please request lower amount!`
@@ -400,9 +435,6 @@ btnSort.addEventListener('click', e => {
 //   );
 //   console.log(movementUI);
 // });
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
 
 //This method to get numbers between Min Max/
 const twoNumDifferent = (min, max) =>
