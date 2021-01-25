@@ -127,6 +127,10 @@ const displayMovements = (account, sort = false) => {
     const year = date.getFullYear();
     const displayDate = `${day}/${month}/${year}`;
 
+    //Finding how many days passed/
+    const calcDaysPassed = (date1, date2) =>
+      Math.abs(date2 - date1) / (1000 * 60 * 60 * 24);
+
     const html = `
     <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
