@@ -340,14 +340,16 @@ btnLoan.addEventListener('click', e => {
   const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-    //Add money in account
-    currentAccount.movements.push(amount);
+    setTimeout(() => {
+      //Add money in account
+      currentAccount.movements.push(amount);
 
-    //Add transfer date
-    currentAccount.movementsDates.push(new Date().toISOString());
+      //Add transfer date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    //Update UI
-    updateUI(currentAccount);
+      //Update UI
+      updateUI(currentAccount);
+    }, 2500);
   } else {
     alert(
       `Sorry! Your income deposits not 10% of requesting amount. Please request lower amount!`
