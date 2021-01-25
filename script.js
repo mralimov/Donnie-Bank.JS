@@ -357,6 +357,10 @@ btnTransfer.addEventListener('click', e => {
     recieverAccount.movementsDates.push(new Date().toISOString());
 
     updateUI(currentAccount);
+
+    //Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
@@ -375,6 +379,9 @@ btnLoan.addEventListener('click', e => {
 
       //Update UI
       updateUI(currentAccount);
+      //Reset timer
+      clearInterval(timer);
+      timer = startLogOutTimer();
     }, 2500);
   } else {
     alert(
@@ -428,9 +435,6 @@ btnSort.addEventListener('click', e => {
 //   );
 //   console.log(movementUI);
 // });
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
 
 //This method to get numbers between Min Max/
 const twoNumDifferent = (min, max) =>
