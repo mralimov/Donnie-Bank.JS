@@ -212,12 +212,12 @@ btnLogin.addEventListener('click', e => {
 
     //Current Date and time
     const now = new Date();
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    const hour = now.getHours();
-    const min = now.getMinutes();
-    const displayDate = `${day}/${month}/${year}, ${hour}:${min}`;
+    const day = `${now.getDate()}`.padStart(2, 0);
+    const month = `${now.getMonth() + 1}`.padStart(2, 0);
+    const year = now.getFullYear();
+    const hour = `${now.getHours()}`.padStart(2, 0);
+    const min = `${now.getMinutes()}`.padStart(2, 0);
+    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
 
     //Clear inout fields
     inputLoginUsername.value = inputLoginPin.value = '';
