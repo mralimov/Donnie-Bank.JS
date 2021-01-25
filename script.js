@@ -249,8 +249,11 @@ const startLogOutTimer = () => {
 
   // Call timer every second
   setInterval(() => {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+
     //Each call back call print the remaining time to UI
-    labelTimer.textContent = time;
+    labelTimer.textContent = `${min}:${sec}`;
 
     //Decrease timer 1s
     time--;
