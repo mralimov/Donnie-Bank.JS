@@ -243,6 +243,22 @@ const updateUI = function (account) {
   displayMovements(account);
 };
 
+const startLogOutTimer = () => {
+  // Set time to 5 minutes
+  let time = 300;
+
+  // Call timer every second
+  setInterval(() => {
+    //Each call back call print the remaining time to UI
+    labelTimer.textContent = time;
+
+    //Decrease timer 1s
+    time--;
+
+    //When 0 seconds, stop timer and log out user
+  }, 1000);
+};
+
 let currentAccount;
 
 //Fake Always logged in
@@ -296,6 +312,8 @@ btnLogin.addEventListener('click', e => {
     //Clear inout fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
+
+    startLogOutTimer();
 
     //Update UI
     updateUI(currentAccount);
