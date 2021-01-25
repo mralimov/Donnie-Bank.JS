@@ -268,9 +268,10 @@ const startLogOutTimer = () => {
   // Call timer every second
   tick();
   const timer = setInterval(tick, 1000);
+  return timer;
 };
 
-let currentAccount;
+let currentAccount, timer;
 
 //Event handler
 btnLogin.addEventListener('click', e => {
@@ -319,7 +320,8 @@ btnLogin.addEventListener('click', e => {
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
 
-    startLogOutTimer();
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
 
     //Update UI
     updateUI(currentAccount);
