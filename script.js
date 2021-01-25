@@ -109,20 +109,30 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = (movements, sort = false) => {
+const displayMovements = (account, sort = false) => {
   //TextContent = 0
   containerMovements.innerHTML = '';
 
   //movements.slice() because we ca not touch original array, That's why we create copy of that aray to sort with slice() method.
-  const movSort = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movSort = sort
+    ? account.movements.slice().sort((a, b) => a - b)
+    : account.movements;
 
   movSort.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
+
+    const date = new Date(account.movementsDates[i]);
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    const displayDate = `${day}/${month}/${year}`;
+
     const html = `
     <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
+          <div class="movements__date">${displayDate}</div>
            <div class="movements__value">${mov.toFixed(2)}€</div>
         </div>
     `;
@@ -174,7 +184,7 @@ const updateUI = function (account) {
   calcDisplayBalance(account);
 
   //Display summary
-  displayMovements(account.movements);
+  displayMovements(account);
 };
 
 let currentAccount;
@@ -184,13 +194,6 @@ currentAccount = account1;
 updateUI(currentAccount);
 containerApp.style.opacity = 100;
 
-const now = new Date();
-const day = `${now.getDate()}`.padStart(2, 0);
-const month = `${now.getMonth() + 1}`.padStart(2, 0);
-const year = now.getFullYear();
-const hour = now.getHours();
-const min = now.getMinutes();
-labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
 //Event handler
 btnLogin.addEventListener('click', e => {
   e.preventDefault();
@@ -206,6 +209,15 @@ btnLogin.addEventListener('click', e => {
       currentAccount.owner.split(' ')[0]
     }`;
     containerApp.style.opacity = 100;
+
+    //Current Date and time
+    const now = new Date();
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    const hour = now.getHours();
+    const min = now.getMinutes();
+    const displayDate = `${day}/${month}/${year}, ${hour}:${min}`;
 
     //Clear inout fields
     inputLoginUsername.value = inputLoginPin.value = '';
