@@ -251,6 +251,11 @@ btnTransfer.addEventListener('click', e => {
     //Doing the Transfer money
     currentAccount.movements.push(-amount);
     recieverAccount.movements.push(amount);
+
+    //Add transfer date
+    currentAccount.movementsDates.push(new Date());
+    recieverAccount.movementsDates.push(new Date());
+
     updateUI(currentAccount);
   }
 });
@@ -263,6 +268,9 @@ btnLoan.addEventListener('click', e => {
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     //Add money in account
     currentAccount.movements.push(amount);
+
+    //Add transfer date
+    currentAccount.movementsDates.push(new Date());
 
     //Update UI
     updateUI(currentAccount);
